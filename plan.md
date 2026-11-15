@@ -72,19 +72,21 @@ Each event gets a short on-screen banner ("GUN UPGRADED: Fire rounds!" / "THEY'R
 
 All guns: realistic detail (slide, sights, grip texture, metal highlights), generic design — no real brands or logos.
 
-### The upgrade moment (dramatic)
+### The upgrade moment (small, never pauses)
 - **Next gun bar** in the HUD fills with every kill ("4 kills" to go).
-- On upgrade: ~1.3 s **slow motion**, golden screen flash, **shockwave ring** that blasts nearby zombies back, gold sparks, **"GUN UPGRADED!"** banner, a **gun card** slides in (picture, name, what it does), **+25 HP** floats up, and the new gun pops into his hands.
+- On upgrade: the new gun pops into his hands with a few gold sparks, **+25 HP** floats up by the health bar, and a **small toast** slides in above the ammo counter for ~2.5 s (gun picture, "NEW GUN", name, what it does). No slow motion, no full-screen banner. (Changed 2026-11-15: the big card and slow-mo took too much screen.)
 - Bullet trails show the effect: orange = fire rounds, red-orange = explosive, blue = piercing.
 
 ## 6. Zombies (every 12 kills they level up)
 
 ### Difficulty target (decided)
 - A **really bad player should not survive past ~30 kills**. Average and good players stay in much longer.
-- Tuned with the bot simulator (`tools/balance-sim.js`): bad bot ~6–20 kills, average ~50–100, good 100+.
-- Hits only make zombies **flinch** — they keep coming (no big knockback except shotgun / upgrade shockwave).
-- Each zombie level: health ×1.25, speed ×1.08, spawn interval ×0.82, +1 max on screen, more hordes.
-- Level-up moment: screen pulses dark red, "THEY'RE GETTING STRONGER…", growl.
+- **Good players keep playing much longer** (added 2026-11-15).
+- Tuned with the bot simulator (`tools/balance-sim.js`): bad bot ~7–18 kills, average ~70–110, good 300+ (often still alive after several minutes).
+- Hits only make zombies **flinch** — they keep coming (no big knockback except the shotgun).
+- Zombie levels 1–5: health ×1.25, speed ×1.08, spawn interval ×0.82, +1 max on screen, more hordes.
+- From level 6 on, growth slows down (health ×1.1, speed and spawn rate barely change, max 9 on screen) so good players can keep going.
+- Level-up: **no on-screen message** (removed 2026-11-15, it took too much time and screen). Only the "ZOMBIE LV" counter in the corner pulses and a growl plays.
 
 ### Where they come from (unlock one by one)
 | Zombie level | Kills | New spawn point |

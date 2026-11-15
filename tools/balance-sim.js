@@ -8,8 +8,6 @@
 //   console.table(sim.results);
 //
 // It drives the Phaser loop directly (no rendering) so it runs much faster than real time.
-import { CONFIG } from '../src/config.js';
-
 export const PROFILES = {
   bad: { reactMs: 750, head: 0.12, body: 0.48 }, // slow, mostly body shots, many misses
   avg: { reactMs: 420, head: 0.3, body: 0.52 },
@@ -32,9 +30,7 @@ export class BalanceSim {
   advance(budgetMs = 5000) {
     const game = this.game;
     const realRender = game.scene.render;
-    const savedSlowMo = CONFIG.progression.upgradeSlowMoMs;
     game.scene.render = () => {};
-    CONFIG.progression.upgradeSlowMoMs = 0;
     try {
       const end = performance.now() + budgetMs;
       while (performance.now() < end) {
@@ -49,7 +45,6 @@ export class BalanceSim {
       }
     } finally {
       game.scene.render = realRender;
-      CONFIG.progression.upgradeSlowMoMs = savedSlowMo;
     }
     return this.results;
   }

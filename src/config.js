@@ -20,7 +20,7 @@ export const CONFIG = {
 
   zombies: {
     walker: {
-      // Tuned with tools/balance-sim.js: bad player ~6-20 kills, average ~50-100, good 100+.
+      // Tuned with tools/balance-sim.js (see zombieLevelUp below).
       health: 3.5,
       speed: 1.8, // depth units per second
       damage: 8,
@@ -47,12 +47,18 @@ export const CONFIG = {
   zombieLevelUp: {
     healthMult: 1.25,
     speedMult: 1.08,
-    maxSpeedMult: 2.0,
+    maxSpeedMult: 1.6,
     intervalMult: 0.82,
-    minIntervalMs: 450,
+    minIntervalMs: 700,
     maxAliveAdd: 1,
-    maxAliveCap: 16,
-    hordeChanceAdd: 0.07,
+    maxAliveCap: 9,
+    hordeChanceAdd: 0.05,
+    // After this level the growth slows down so good players can keep going for a long time.
+    // Tuned with tools/balance-sim.js: bad ~7-18 kills, average ~70-110, good 300+.
+    lateLevel: 5,
+    lateHealthMult: 1.1,
+    lateSpeedMult: 1.01,
+    lateIntervalMult: 0.99,
   },
 
   // Spawn sources unlock one by one as the zombie level rises.
@@ -80,10 +86,6 @@ export const CONFIG = {
     gunUpgradeEvery: 10,
     zombieLevelUpEvery: 12,
     healOnUpgrade: 25,
-    upgradeSlowMoMs: 1300, // real-time length of the dramatic slow-down
-    upgradeSlowMoFactor: 0.2,
-    shockwaveDepth: 7, // zombies closer than this get blasted back
-    shockwavePush: 4,
   },
 
   // Debug: speeds the whole game up (used for automated balance tests).

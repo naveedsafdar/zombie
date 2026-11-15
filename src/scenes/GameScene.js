@@ -15,12 +15,6 @@ const HANDS_FY = (84 - 50) / 150;
 // Survivor is drawn left of his screen x so the centre of the road stays visible.
 const SURVIVOR_ORIGIN_X = 0.62;
 
-const UNLOCK_MESSAGES = {
-  house: "THEY'RE BREAKING OUT OF THE HOUSES!",
-  nearHouse: 'THE HOUSES NEXT TO YOU ARE FULL OF THEM!',
-  car: 'SOMETHING MOVES BEHIND THE CARS…',
-  roadside: "THEY'RE COMING FROM THE SIDES!",
-};
 
 export class GameScene extends Phaser.Scene {
   constructor() {
@@ -39,7 +33,6 @@ export class GameScene extends Phaser.Scene {
     this.move = { left: false, right: false };
     this.trigger = null; // pointer holding the trigger (automatic guns)
     this.triggerHeldMs = 0;
-    this.slowmoUntil = 0;
     this.spawnAcc = CONFIG.spawn.intervalMs * 0.6;
 
     this.zombieLevel = 0;
@@ -94,7 +87,6 @@ export class GameScene extends Phaser.Scene {
     }).setDepth(4995);
 
     this.hurtOverlay = this.add.rectangle(0, 0, width, height, 0xff0000, 0).setOrigin(0).setDepth(9000);
-    this.levelOverlay = this.add.rectangle(0, 0, width, height, 0x5a0000, 0).setOrigin(0).setDepth(9001);
 
     this.createHud();
     this.createInput();
@@ -217,23 +209,11 @@ export class GameScene extends Phaser.Scene {
     this.healthBar.width = 220 * (p.health / CONFIG.player.maxHealth);
     fx.floatText(this, 140, 40, `+${prog.healOnUpgrade} HP`, '#7dff7a');
 
-    // Drama: slow motion, flash, shockwave, sparks, banner, card
-    this.slowmoUntil = performance.now() + prog.upgradeSlowMoMs;
-    this.cameras.main.flash(300, 255, 220, 140);
-    this.cameras.main.shake(250, 0.006);
+    // Small, non-blocking notice: sparks at the gun and a compact toast by the ammo counter.
     const m = this.muzzlePosition();
-    fx.shockwave(this, m.x, m.y + 60);
-    this.sparks.explode(50, m.x, m.y + 20);
-    fx.showBanner(this, 'GUN UPGRADED!', '#ffd76a', 140, 50);
-    fx.showGunCard(this, this.gun);
+    this.sparks.explode(25, m.x, m.y + 20);
+    fx.showGunToast(this, this.gun);
     sfx.playUpgrade();
-
-    // Shockwave blasts nearby zombies back
-    for (const z of this.zombies) {
-      if (z.state === 'dead' || z.z > prog.shockwaveDepth) continue;
-      z.z += prog.shockwavePush;
-      z.flashUntil = this.time.now + 150;
-    }
   }
 
   muzzlePosition() {
@@ -594,10 +574,7 @@ export class GameScene extends Phaser.Scene {
     const gunUp = this.kills % prog.gunUpgradeEvery === 0;
     const zombieUp = this.kills % prog.zombieLevelUpEvery === 0;
     if (gunUp) this.upgradeGun();
-    if (zombieUp) {
-      if (gunUp) this.tweens.addCounter({ from: 0, to: 1, duration: 2000, onComplete: () => this.zombieLevelUp() });
-      else this.zombieLevelUp();
-    }
+    if (zombieUp) this.zombieLevelUp();
     this.updateNextGunBar();
   }
 
@@ -605,23 +582,12 @@ export class GameScene extends Phaser.Scene {
     if (this.isOver) return;
     this.zombieLevel++;
     this.zStats = zombieStatsForLevel(this.zombieLevel);
-    this.levelText.setText(`ZOMBIE LV ${this.zombieLevel}`);
-
-    const unlocked = CONFIG.spawnSources.find((s) => s.unlockLevel === this.zombieLevel);
-    fx.showBanner(this, "THEY'RE GETTING STRONGER…", '#ff3b30', 200, 40);
-    if (unlocked && UNLOCK_MESSAGES[unlocked.id]) {
-      this.tweens.addCounter({
-        from: 0,
-        to: 1,
-        duration: 900,
-        onComplete: () => fx.showBanner(this, UNLOCK_MESSAGES[unlocked.id], '#ffb0a0', 255, 26),
-      });
-    }
+    // No on-screen message: only the HUD counter pulses and a growl plays.
+    this.levelText.setText(`ZOMBIE LV ${this.zombieLevel}`).setScale(1.4);
+    this.tweens.add({ targets: this.levelText, scale: 1, duration: 300, ease: 'Quad.easeOut' });
     sfx.playGrowl();
-    this.cameras.main.shake(400, 0.004);
-    this.levelOverlay.setFillStyle(0x5a0000, 0);
-    this.tweens.add({ targets: this.levelOverlay, fillAlpha: 0.45, duration: 250, yoyo: true, hold: 300 });
   }
+
 
   // ---------- player ----------
 
@@ -666,8 +632,7 @@ export class GameScene extends Phaser.Scene {
 
   update(time, delta) {
     if (this.isOver) return;
-    const slow = performance.now() < this.slowmoUntil ? CONFIG.progression.upgradeSlowMoFactor : 1;
-    const speed = CONFIG.gameSpeed * slow;
+    const speed = CONFIG.gameSpeed;
     this.time.timeScale = speed;
     this.tweens.timeScale = CONFIG.gameSpeed;
     const dt = (Math.min(delta, 50) / 1000) * speed;
@@ -704,7 +669,7 @@ export class GameScene extends Phaser.Scene {
       this.spawnWave();
     }
 
-    // Zombie timers (flash, burn) use the scene clock, which slows down in slow-motion.
+    // Zombie timers (flash, burn) use the scene clock.
     this.updateZombies(this.time.now, dt);
   }
 }
@@ -712,10 +677,17 @@ export class GameScene extends Phaser.Scene {
 function zombieStatsForLevel(level) {
   const w = CONFIG.zombies.walker;
   const L = CONFIG.zombieLevelUp;
+  // Full-strength growth up to lateLevel, gentler growth after it,
+  // so good players can keep going for a long time.
+  const early = Math.min(level, L.lateLevel);
+  const late = Math.max(0, level - L.lateLevel);
   return {
-    health: w.health * Math.pow(L.healthMult, level),
-    speed: w.speed * Math.min(L.maxSpeedMult, Math.pow(L.speedMult, level)),
-    intervalMs: Math.max(L.minIntervalMs, CONFIG.spawn.intervalMs * Math.pow(L.intervalMult, level)),
+    health: w.health * Math.pow(L.healthMult, early) * Math.pow(L.lateHealthMult, late),
+    speed: w.speed * Math.min(L.maxSpeedMult, Math.pow(L.speedMult, early) * Math.pow(L.lateSpeedMult, late)),
+    intervalMs: Math.max(
+      L.minIntervalMs,
+      CONFIG.spawn.intervalMs * Math.pow(L.intervalMult, early) * Math.pow(L.lateIntervalMult, late),
+    ),
     maxAlive: Math.min(L.maxAliveCap, CONFIG.spawn.maxAlive + L.maxAliveAdd * level),
     hordeChance: Math.min(0.7, CONFIG.spawn.hordeChance + L.hordeChanceAdd * level),
   };
