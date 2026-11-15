@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100" width="600" height="200">
+  <g stroke="#0a0a0c" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M6 40 L84 32 L88 58 L64 62 Q52 64 46 74 L10 76 Q4 60 6 40 Z" fill="#6b4a2e"/>
+    <path d="M14 46 L76 40 M16 52 L74 47" stroke="#4e3420" fill="none"/>
+    <rect x="6" y="38" width="8" height="38" rx="3" fill="#1e1f23"/>
+    <path d="M118 56 L118 66 Q118 76 106 76 L96 76" fill="none" stroke="#1e1f23" stroke-width="5"/>
+    <path d="M108 56 Q113 63 108 70 L104 70 Q108 63 103 56 Z" fill="#3a3c42"/>
+    <rect x="150" y="43" width="112" height="9" fill="#1e1f23"/>
+    <rect x="150" y="31" width="140" height="10" fill="#232428"/>
+    <rect x="152" y="32" width="136" height="3" fill="#50545d" stroke="none"/>
+    <rect x="84" y="28" width="68" height="28" rx="3" fill="#2c2e33"/>
+    <rect x="86" y="30" width="64" height="4" fill="#50545d" stroke="none"/>
+    <rect x="112" y="36" width="24" height="9" fill="#121316"/>
+    <rect x="172" y="40" width="62" height="17" rx="5" fill="#6b4a2e"/>
+    <path d="M182 42 V55 M190 42 V55 M198 42 V55 M206 42 V55 M214 42 V55 M222 42 V55" stroke="#4e3420"/>
+  </g>
+  <g fill="#a32d2d" stroke="#0a0a0c" stroke-width="1">
+    <rect x="90" y="40" width="5" height="12" rx="1"/><rect x="97" y="40" width="5" height="12" rx="1"/><rect x="104" y="40" width="5" height="12" rx="1"/>
+  </g>
+  <circle cx="286" cy="29" r="2.2" fill="#e8e8e8"/>
+</svg>

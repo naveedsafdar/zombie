@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130" width="400" height="260">
+  <defs>
+    <pattern id="stip" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="#1e1f23"/><circle cx="1" cy="1" r="0.8" fill="#34363c"/><circle cx="3" cy="3" r="0.8" fill="#0f1012"/></pattern>
+  </defs>
+  <g stroke="#0a0a0c" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M30 46 L18 50 L20 60 L34 60 Z" fill="#1e1f23"/>
+    <path d="M36 58 L74 58 L68 124 L28 124 L22 118 L30 58 Z" fill="#1e1f23"/>
+    <path d="M39 66 L66 66 L61 114 L33 114 Z" fill="url(#stip)" stroke="none"/>
+    <rect x="25" y="121" width="42" height="7" rx="2" fill="#2c2e33"/>
+    <path d="M104 60 L104 76 Q104 88 90 88 L70 88" fill="none" stroke="#1e1f23" stroke-width="7"/>
+    <path d="M86 60 Q92 70 86 80 L81 80 Q86 70 79 60 Z" fill="#3a3c42"/>
+    <rect x="34" y="46" width="152" height="14" fill="#1e1f23"/>
+    <path d="M10 20 L190 20 L195 26 L195 46 L10 46 Z" fill="#2c2e33"/>
+    <rect x="12" y="21.5" width="176" height="3.5" fill="#50545d" stroke="none"/>
+    <path d="M20 25 V44 M24 25 V44 M28 25 V44 M32 25 V44 M36 25 V44 M40 25 V44 M44 25 V44" stroke="#15161a"/>
+    <rect x="96" y="24" width="32" height="11" fill="#121316"/>
+    <rect x="99" y="26.5" width="27" height="6" fill="#9a8458" stroke="none"/>
+    <rect x="178" y="13" width="7" height="7" fill="#15161a"/>
+    <path d="M13 12 L30 12 L30 20 L13 20 Z" fill="#15161a"/>
+    <rect x="193" y="30" width="5" height="11" fill="#0d0e10"/>
+  </g>
+  <circle cx="181.5" cy="16" r="1.4" fill="#e8f25a"/>
+</svg>

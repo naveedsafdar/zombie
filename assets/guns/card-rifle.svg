@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" width="600" height="240">
+  <defs>
+    <pattern id="stip" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="#1e1f23"/><circle cx="1" cy="1" r="0.8" fill="#34363c"/><circle cx="3" cy="3" r="0.8" fill="#0f1012"/></pattern>
+  </defs>
+  <g stroke="#0a0a0c" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M6 46 L70 42 L70 62 L40 64 L30 80 L8 80 Z" fill="#1e1f23"/>
+    <rect x="12" y="50" width="40" height="5" fill="#2c2e33" stroke="none"/>
+    <path d="M142 62 L166 62 Q172 88 184 110 L162 114 Q148 92 142 62 Z" fill="#1e1f23"/>
+    <path d="M150 74 L170 72 M154 88 L176 86 M160 100 L181 98" stroke="#2c2e33"/>
+    <path d="M96 62 L118 62 L112 100 L90 100 Z" fill="#1e1f23"/>
+    <path d="M98 68 L114 68 L109 94 L93 94 Z" fill="url(#stip)" stroke="none"/>
+    <path d="M138 62 L138 74 Q138 84 126 84 L118 84" fill="none" stroke="#1e1f23" stroke-width="5"/>
+    <path d="M128 62 Q133 70 128 78 L124 78 Q128 70 123 62 Z" fill="#3a3c42"/>
+    <rect x="70" y="40" width="100" height="23" rx="2" fill="#2c2e33"/>
+    <rect x="72" y="42" width="96" height="4" fill="#50545d" stroke="none"/>
+    <rect x="122" y="47" width="26" height="8" fill="#121316"/>
+    <rect x="170" y="42" width="80" height="18" fill="#232428"/>
+    <path d="M182 46 H192 M200 46 H210 M218 46 H228 M182 55 H192 M200 55 H210 M218 55 H228" stroke="#0e0f12" stroke-width="3"/>
+    <rect x="250" y="47" width="30" height="7" fill="#15161a"/>
+    <rect x="278" y="44" width="14" height="13" rx="1" fill="#1e1f23"/>
+    <rect x="96" y="32" width="8" height="9" fill="#15161a"/><rect x="136" y="32" width="8" height="9" fill="#15161a"/>
+    <path d="M78 20 L92 16 L150 16 L164 20 L164 32 L150 36 L92 36 L78 32 Z" fill="#15161a"/>
+    <rect x="94" y="19" width="54" height="3" fill="#3a3c42" stroke="none"/>
+  </g>
+  <ellipse cx="164" cy="26" rx="3" ry="6" fill="#2e5a86"/>
+</svg>
